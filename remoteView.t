@@ -14,13 +14,14 @@ remoteViewModuleID: ModuleID {
 }
 
 // Anonymous preinit object, adds all RemoteView instances to their
-// parent objects.
+// parent objects and sets up RemoteViewConnector instances.
 PreinitObject
 	execute() {
 		forEachInstance(RemoteView, function(o) {
 			if(o.location == nil) return;
 			o.location.addView(o);
 		});
+
 		forEachInstance(RemoteViewConnector, function(o) {
 			if(o.locationList == nil) return;
 			o.locationList.forEach(function(rm) {
@@ -38,18 +39,28 @@ class RemoteView: object
 ;
 
 modify Room
+	// Property to hold any remote view connectors that we're part of.
 	_remoteViewConnectors = nil
 
+	// Called by the preinit object, we make a note of any remote view
+	// connectors that we're on one end of.
 	addRemoteViewConnector(v) {
 		if((v == nil) || !v.ofKind(RemoteViewConnector))
 			return(nil);
+
+		// Create a new vector for our connectors if we don't already
+		// have one.
 		if(_remoteViewConnectors == nil)
 			_remoteViewConnectors = new Vector();
+
+		// Add the connector.
 		_remoteViewConnectors.append(v);
+
 		return(true);
 	}
 
-	listRemoteContents(otherLocation) {
+	// 
+	remoteViewLister(otherLocation) {
 		_remoteViewLocation = otherLocation;
 		try {
 			lookAround(gActor,
@@ -90,7 +101,9 @@ class RemoteViewConnector: SenseConnector, Fixture
 			else
 				otherLocation = locationList[1];
 
-			gActor.location.listRemoteContents(otherLocation);
+
+			defaultReport('You see nothing in particular.');
+			gActor.location.remoteViewLister(otherLocation);
 		}
 	}
 ;
@@ -147,6 +160,7 @@ modify Thing
 			remoteDesc(getPOVDefault(gActor));
 			return(true);
 		}
+
 		return(nil);
 	}
 

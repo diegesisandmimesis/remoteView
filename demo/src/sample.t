@@ -31,6 +31,17 @@ versionInfo:    GameID
 		"This is a simple test game that demonstrates the features
 		of the remoteView library.
 		<.p>
+		Test case:
+		<.p>
+		\t&gt;X PEBBLE
+		\n\tYou see no pebble here.
+		<.p>
+		\n\t&gt;L THROUGH WINDOW
+		\n\tIn the other room, you see a pebble.
+		<.p>
+		\n\t&gt;X PEBBLE
+		\n\tIt looks like a pebble seen through a window.
+		<.p>
 		Consult the README.txt document distributed with the library
 		source for a quick summary of how to use the library in your
 		own games.
@@ -41,7 +52,8 @@ versionInfo:    GameID
 ;
 
 startRoom: Room 'Void'
-        "This is a featureless void."
+        "This is a featureless void with a window.  The other room is
+		to the north. "
 	north = otherRoom
 ;
 +me: Person;
@@ -50,8 +62,8 @@ window: RemoteViewConnector 'window' 'window'
 	locationList = static [ startRoom, otherRoom ]
 ;
 
-otherRoom: Room 'The Other Room'
-	"This is a room viewable through the window. "
+otherRoom: Room 'Other Room'
+	"This is the other room.  The void lies to the south. "
 	south = startRoom
 ;
 +pebble: Thing 'small round pebble' 'pebble'
