@@ -60,6 +60,9 @@ startRoom: Room 'Void'
 
 window: RemoteViewConnector 'window' 'window'
 	locationList = static [ startRoom, otherRoom ]
+	oneWay = true
+	oneWayFailure = 'This side of the window is tinted, so you
+		can\'t see through it from here. '
 ;
 
 otherRoom: Room 'Other Room'
