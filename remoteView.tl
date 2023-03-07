@@ -1,2 +1,2 @@
-name: FOO Library
-source: foo.t
+name: remoteView Library
+source: remoteView.t

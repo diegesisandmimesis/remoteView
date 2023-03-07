@@ -19,6 +19,8 @@
 #include <adv3.h>
 #include <en_us.h>
 
+#include "remoteView.h"
+
 versionInfo:    GameID
         name = 'remoteView Library Demo Game'
         byline = 'Diegesis & Mimesis'
@@ -44,10 +46,8 @@ startRoom: Room 'Void'
 ;
 +me: Person;
 
-FOO
-
 window: RemoteViewConnector 'window' 'window'
-	locationList = static [ startRoom, windowRoom ]
+	locationList = static [ startRoom, otherRoom ]
 ;
 
 otherRoom: Room 'The Other Room'
