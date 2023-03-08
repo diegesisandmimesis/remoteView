@@ -136,7 +136,7 @@ class RemoteViewConnector: SenseConnector, Fixture
 
 	dobjFor(LookThrough) {
 		verify() {
-			if(!gActor.isIn(locationList[1])) {
+			if((oneWay == true) && !gActor.isIn(locationList[1])) {
 				if(oneWayFailure)
 					illogicalNow(oneWayFailure);
 				else
