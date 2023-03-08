@@ -57,6 +57,7 @@ startRoom: Room 'Void'
 	north = otherRoom
 ;
 +me: Person;
++rock: Thing 'ordinary rock' 'rock' "An ordinary rock. ";
 
 window: RemoteViewConnector 'window' 'window'
 	locationList = static [ startRoom, otherRoom ]
@@ -69,9 +70,7 @@ otherRoom: Room 'Other Room'
 	"This is the other room.  The void lies to the south. "
 	south = startRoom
 ;
-+pebble: Thing 'small round pebble' 'pebble'
-	"A small, round pebble. "
-;
++pebble: Thing 'small round pebble' 'pebble' "A small, round pebble. ";
 ++RemoteView ->window 'It looks like a pebble seen through a window. ';
 
 gameMain:       GameMainDef initialPlayerChar = me;

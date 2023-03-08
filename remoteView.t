@@ -116,7 +116,18 @@ class RemoteViewConnector: SenseConnector, Fixture
 	suffix = nil
 
 	// Connector starts out totally opaque.
-	connectorMaterial = adventium
+	connectorMaterial() {
+		if(_remoteViewToggle != true) return(adventium);
+		if(oneWay == true) {
+			if(gActor.isIn(locationList[1]))
+				return(glass);
+			else
+				return(adventium);
+		}
+		return(glass);
+	}
+
+	_remoteViewToggle = nil
 
 	// We inherit locationList from MultiLoc via SenseConnector,
 	// but ours always needs to be exactly two elements long:  the
@@ -137,7 +148,8 @@ class RemoteViewConnector: SenseConnector, Fixture
 			local otherLocation;
 
 			// Mark the connector as visually transparent.
-			connectorMaterial = glass;
+			//connectorMaterial = glass;
+			_remoteViewToggle = true;
 
 			// Figure out which location in our locationList
 			// the current actor ISN'T in.
@@ -146,12 +158,6 @@ class RemoteViewConnector: SenseConnector, Fixture
 			else 
 				otherLocation = locationList[1];
 
-			// THIS DOESN'T WORK.
-			// The idea is to provide a default response in
-			// case the remoteViewLister() doesn't produce any
-			// output, but it uses lookAround() which can
-			// output empty double quoted strings, which will
-			// suppress the output of defaultReport();
 			if(prefix) reportBefore(prefix);
 			if(suffix) reportAfter(suffix);
 
@@ -206,8 +212,14 @@ modify Thing
 			// the current actor is in the other.  If they are,
 			// then that's a match for the connector, so
 			// we mark the view as a match.
-			if((gActor.isIn(l[1]) && isIn(l[2]))
-				|| (gActor.isIn(l[2]) && isIn(l[1]))) {
+			if(gActor.isIn(l[1]) && isIn(l[2])) {
+				r = o;
+				return;
+			}
+			if(oneWay != true)
+				return;
+
+			if(gActor.isIn(l[2]) && isIn(l[1])) {
 				r = o;
 				return;
 			}
