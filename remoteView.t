@@ -17,9 +17,9 @@ modify playerActionMessages
 	remoteViewFailure = '{You/he} can\'t look through that. '
 ;
 
-// Anonymous preinit object, adds all RemoteView instances to their
+// Preinit object, adds all RemoteView instances to their
 // parent objects and sets up RemoteViewConnector instances.
-PreinitObject
+remoteViewPreinit: PreinitObject
 	execute() {
 		forEachInstance(RemoteView, function(o) {
 			if(o.location == nil) return;
@@ -216,7 +216,8 @@ modify Thing
 				r = o;
 				return;
 			}
-			if(oneWay != true)
+
+			if(oneWay == true)
 				return;
 
 			if(gActor.isIn(l[2]) && isIn(l[1])) {
